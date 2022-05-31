@@ -158,7 +158,7 @@ public class EnvyFree {
      * @param secondSet the second set of edges.
      * @return intersection between the given sets.
      */
-    private ArrayList<EdgeData> intersection(ArrayList<EdgeData> firstSet, ArrayList<EdgeData> secondSet){
+    public ArrayList<EdgeData> intersection(ArrayList<EdgeData> firstSet, ArrayList<EdgeData> secondSet){
         ArrayList<EdgeData> intersection = new ArrayList<>();
         for (EdgeData e : firstSet){
             if (secondSet.contains(e)){

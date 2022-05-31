@@ -27,16 +27,23 @@ public class UndirectedBipartiteGraphAlgorithms {
     /**
      * Method finds an envy free matching with maximum cardinality.
      */
-    public void envyFreeMaxCardinality(){
-
+    public void envyFreeMaxCardinality(PanelBipartiteGraph panel, FrameGraph frame){
+        EnvyFree algo_1 = new EnvyFree(graph);
+        hungarianMethod(panel, frame);
+        UndirectedBipartiteGraph isolatedGraph = algo_1.computeSegregation();
+        ArrayList<EdgeData> matches = graph.getMatches();
+        ArrayList<EdgeData> segregationEdges = isolatedGraph.getEdges();
+        ArrayList<EdgeData> intersection = algo_1.intersection(matches, segregationEdges);
     }
 
     /**
      * Method finds an envy free matching with maximum cost,
      * meaning that the sum of the edges is maximal.
      */
-    public void envyFreeMaxWeight(){
-
+    public void envyFreeMaxWeight(PanelBipartiteGraph panel, FrameGraph frame){
+        EnvyFree algo_1 = new EnvyFree(graph);
+        hungarianMethod(panel, frame);
+        UndirectedBipartiteGraph isolatedGraph = algo_1.computeSegregation();
     }
 
     public void hungarianMethod(PanelBipartiteGraph panel, FrameGraph frame) {

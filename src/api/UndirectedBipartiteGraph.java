@@ -258,34 +258,21 @@ public class UndirectedBipartiteGraph {
     }
 
 
+    public ArrayList<NodeData> getDisjointSet_A() {return disjointSet_A;}
 
-    public ArrayList<NodeData> getDisjointSet_A() {
-        return disjointSet_A;
-    }
+    public ArrayList<NodeData> getDisjointSet_B() {return disjointSet_B;}
 
-    public ArrayList<NodeData> getDisjointSet_B() {
-        return disjointSet_B;
-    }
+    public int nodeSize() {return node_size;}
 
-    public int nodeSize() {
-        return node_size;
-    }
+    public int edgeSize() {return edge_size;}
 
-    public int edgeSize() {
-        return edge_size;
-    }
-
-    public ArrayList<EdgeData> getMatches() {
-        return matches;
-    }
+    public ArrayList<EdgeData> getMatches() {return matches;}
 
     public ArrayList<EdgeData> getEdges() {return edges;}
 
     public ArrayList<NodeData> getVertices() {return vertices;}
 
-    public void setMatches(ArrayList<EdgeData> matches) {
-        this.matches = matches;
-    }
+    public void setMatches(ArrayList<EdgeData> matches) {this.matches = matches;}
 }
 
 
