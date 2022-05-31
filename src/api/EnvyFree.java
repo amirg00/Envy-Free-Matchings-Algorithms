@@ -68,7 +68,7 @@ public class EnvyFree {
      * Method return the difference (A\B) between the two given sets.
      * @param firstSet the first set of nodes.
      * @param secondSet the second set of nodes.
-     * @return the difference of the given sets.
+     * @return the difference of the given sets (firstSet\secondSet).
      */
     private ArrayList<NodeData> difference(ArrayList<NodeData> firstSet, ArrayList<NodeData> secondSet) {
         return null;
