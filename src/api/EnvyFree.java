@@ -138,7 +138,7 @@ public class EnvyFree {
     }
 
     /**
-     * Method return the difference (A\B) between the two given sets.
+     * Method return the difference (A\B) between the two given sets of nodes.
      * @param firstSet the first set of nodes.
      * @param secondSet the second set of nodes.
      * @return the difference of the given sets (firstSet\secondSet).
@@ -149,5 +149,22 @@ public class EnvyFree {
             diff.removeIf(n->n.equals(node));
         }
         return diff;
+    }
+
+
+    /**
+     * Method return the intersection (A∩B) between the two given sets of edges.
+     * @param firstSet the first set of edges.
+     * @param secondSet the second set of edges.
+     * @return intersection between the given sets.
+     */
+    private ArrayList<EdgeData> intersection(ArrayList<EdgeData> firstSet, ArrayList<EdgeData> secondSet){
+        ArrayList<EdgeData> intersection = new ArrayList<>();
+        for (EdgeData e : firstSet){
+            if (secondSet.contains(e)){
+                intersection.add(e);
+            }
+        }
+        return intersection;
     }
 }
