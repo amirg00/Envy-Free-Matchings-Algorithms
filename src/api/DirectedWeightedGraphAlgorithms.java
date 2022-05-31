@@ -25,7 +25,7 @@ public class DirectedWeightedGraphAlgorithms {
      */
     public DirectedWeightedGraph copy() {return graph.deepCopy(graph);}
 
-    public boolean bfs(UndirectedBipartiteGraph g, PanelBipartiteGraph panel, FrameGraph frame) throws InterruptedException {
+    public boolean bfs(UndirectedBipartiteGraph g, PanelBipartiteGraph panel, FrameGraph frame) {
         BFS bfs = new BFS(graph, g);
         ArrayList<NodeData> path = bfs.getAugmentPath();
 
@@ -60,7 +60,7 @@ public class DirectedWeightedGraphAlgorithms {
         return false;
     }
 
-    public void drawPath(ArrayList<NodeData> path, PanelBipartiteGraph panel, FrameGraph frame) throws InterruptedException {
+    public void drawPath(ArrayList<NodeData> path, PanelBipartiteGraph panel, FrameGraph frame) {
         System.out.println(Arrays.toString(path.toArray()));
 
         if (path.isEmpty()){return;}

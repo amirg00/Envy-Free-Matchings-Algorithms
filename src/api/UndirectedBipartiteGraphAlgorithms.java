@@ -24,8 +24,22 @@ public class UndirectedBipartiteGraphAlgorithms {
         return null;
     }
 
+    /**
+     * Method finds an envy free matching with maximum cardinality.
+     */
+    public void envyFreeMaxCardinality(){
 
-    public void hungarianMethod(PanelBipartiteGraph panel, FrameGraph frame) throws InterruptedException {
+    }
+
+    /**
+     * Method finds an envy free matching with maximum cost,
+     * meaning that the sum of the edges is maximal.
+     */
+    public void envyFreeMaxWeight(){
+
+    }
+
+    public void hungarianMethod(PanelBipartiteGraph panel, FrameGraph frame) {
         graph.setMatches(new ArrayList<>()); // M = ϕ
         //panel.render();
         while (true){
