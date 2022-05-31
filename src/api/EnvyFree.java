@@ -61,7 +61,13 @@ public class EnvyFree {
      * @return the union of the given sets.
      */
     private ArrayList<NodeData> union(ArrayList<NodeData> firstSet, ArrayList<NodeData> secondSet){
-        return null;
+        ArrayList<NodeData> union = new ArrayList<>(firstSet);
+        for(NodeData node : secondSet){
+            if (!firstSet.contains(node)){
+                union.add(node);
+            }
+        }
+        return union;
     }
 
     /**
@@ -71,7 +77,10 @@ public class EnvyFree {
      * @return the difference of the given sets (firstSet\secondSet).
      */
     private ArrayList<NodeData> difference(ArrayList<NodeData> firstSet, ArrayList<NodeData> secondSet) {
-        return null;
+        ArrayList<NodeData> diff = new ArrayList<>(firstSet);
+        for (NodeData node : secondSet){
+            diff.removeIf(n->n.equals(node));
+        }
+        return diff;
     }
-
 }
