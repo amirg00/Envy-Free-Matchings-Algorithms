@@ -14,6 +14,37 @@ public class UndirectedBipartiteGraph {
         createRandomBipartiteGraph(randVerticesAmount);
     }
 
+    public UndirectedBipartiteGraph(UndirectedBipartiteGraph graph, ArrayList<NodeData> X, ArrayList<NodeData> Y){
+        clear();
+
+        // Add to group A
+        addNodes(X);
+
+        // Add to group B
+        addNodes(Y);
+
+        // Add edges
+        connectEdges(graph);
+    }
+
+    public void addNodes(ArrayList<NodeData> set){
+        for (NodeData node : set){
+            disjointSet_A.add(node);
+            vertices.add(node);
+            node_size++;
+        }
+    }
+
+    public void connectEdges(UndirectedBipartiteGraph graph){
+        for (EdgeData e : graph.edges){
+            int src = e.getSrc(), dest = e.getDest();
+            if ((isVertexIdInGroup(src, disjointSet_A) && isVertexIdInGroup(dest, disjointSet_B))
+                || (isVertexIdInGroup(src, disjointSet_B) && isVertexIdInGroup(dest, disjointSet_A))){
+                edges.add(e);
+                edge_size++;
+            }
+        }
+    }
 
     /**
      * Method clears the graph.
@@ -27,6 +58,8 @@ public class UndirectedBipartiteGraph {
         vertices = new ArrayList<>();
         neighbors = new HashMap<>();
     }
+
+
 
     /**
      * Creates a random bipartite graph by a given amount of vertices.
@@ -166,6 +199,15 @@ public class UndirectedBipartiteGraph {
     public boolean isVertexInGroup(NodeData v, ArrayList<NodeData> group){
         for(NodeData v_A : group){
             if(v_A.equals(v)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isVertexIdInGroup(int node_id, ArrayList<NodeData> group){
+        for(NodeData v : group){
+            if(v.getKey() == node_id){
                 return true;
             }
         }

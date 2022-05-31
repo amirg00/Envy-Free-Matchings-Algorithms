@@ -15,6 +15,8 @@ public class EnvyFree {
      * @return the computed bipartite graph G[X_L, Y_L].
      */
     public UndirectedBipartiteGraph computeSegregation(){
+        UndirectedBipartiteGraph segregatedGraph;
+
         // Initializing x_0 with X\X_M vertices
         ArrayList<NodeData> X_0 = new ArrayList<>();
         for (NodeData node : bGraph.getDisjointSet_A()){
@@ -23,13 +25,32 @@ public class EnvyFree {
             }
         }
 
+        // Computing χ and Y where:
+        // χ = (X_0, ..., X_i)
+        // Υ = (Υ_1, ..., Υ_i)
         ArrayList<ArrayList<NodeData>> X = new ArrayList<>();
         ArrayList<ArrayList<NodeData>> Y = new ArrayList<>();
-
         X.add(new ArrayList<>(X_0));
 
+        int i = 1;
+        while (true){
+            ArrayList<NodeData> Y_i = compute_Y_i(i, Y, X.get(i-1));
+            ArrayList<NodeData> X_i = compute_X_i(i, Y_i);
+            if (X_i.isEmpty() || Y_i.isEmpty()){break;}
+            Y.add(Y_i);
+            X.add(X_i);
+            i++;
+        }
 
-        return null;
+        // Construct the graph G[X_L,Y_L] section.
+        ArrayList<NodeData> X_union = unionAll(X);
+        ArrayList<NodeData> Y_union = unionAll(Y);
+
+        ArrayList<NodeData> X_L = difference(bGraph.getDisjointSet_A(), X_union);
+        ArrayList<NodeData> Y_L = difference(bGraph.getDisjointSet_B(), Y_union);
+
+        segregatedGraph = new UndirectedBipartiteGraph(bGraph, X_L, Y_L);
+        return segregatedGraph;
     }
 
     /**
@@ -90,6 +111,14 @@ public class EnvyFree {
         }
 
         return difference(N, union_y);
+    }
+
+    private ArrayList<NodeData> unionAll(ArrayList<ArrayList<NodeData>> sets){
+        ArrayList<NodeData> union = new ArrayList<>();
+        for (ArrayList<NodeData> set : sets){
+            union = union(union, set);
+        }
+        return union;
     }
 
     /**
