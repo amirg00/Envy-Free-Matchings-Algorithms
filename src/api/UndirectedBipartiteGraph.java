@@ -3,7 +3,7 @@ package api;
 import java.util.*;
 
 public class UndirectedBipartiteGraph {
-
+    private HashMap<Integer,HashMap<Integer, NodeData>> neighbors;
     private ArrayList<EdgeData> matches, edges;
     private ArrayList<NodeData> disjointSet_A, disjointSet_B, vertices;
     private int node_size, edge_size;
@@ -25,6 +25,7 @@ public class UndirectedBipartiteGraph {
         disjointSet_A = new ArrayList<>();
         disjointSet_B = new ArrayList<>();
         vertices = new ArrayList<>();
+        neighbors = new HashMap<>();
     }
 
     /**
@@ -42,6 +43,7 @@ public class UndirectedBipartiteGraph {
             else{ // O.W. goes to B - also 50%
                 disjointSet_B.add(randVertex);
             }
+            neighbors.put(node_id, new HashMap<>());
             vertices.add(randVertex);
             node_size++;
         }
@@ -69,6 +71,7 @@ public class UndirectedBipartiteGraph {
             for (int distinct_num : distinct_nums) {
                 int src = nodeData.getKey();
                 if (isEdgeInEdges(src, distinct_num)) {continue;}
+                neighbors.get(src).put(distinct_num, getNode(distinct_num));
                 edges.add(random_edge_generator(src, distinct_num));
                 edge_size++;
             }
@@ -80,6 +83,7 @@ public class UndirectedBipartiteGraph {
             for (int distinct_num : distinct_nums) {
                 int src = nodeData.getKey();
                 if (isEdgeInEdges(src, distinct_num)) {continue;}
+                neighbors.get(src).put(distinct_num, getNode(distinct_num));
                 edges.add(random_edge_generator(src, distinct_num));
                 edge_size++;
             }
@@ -133,6 +137,15 @@ public class UndirectedBipartiteGraph {
         return false;
     }
 
+    /**
+     * The method returns the neighbors of the node, returned as NodeData object.
+     * @param node_id node's id.
+     * @return
+     */
+    public ArrayList<NodeData> edgesOut(int node_id){
+        return (ArrayList<NodeData>) neighbors.get(node_id).values();
+    }
+
 
     public boolean isDirectEdgeInMatches(int src, int dest){
         for (EdgeData currMatch : matches){
@@ -168,6 +181,17 @@ public class UndirectedBipartiteGraph {
         return false;
     }
 
+    public boolean isNodeInMatches(NodeData node){
+        int node_id = node.getKey();
+        for (EdgeData e : matches){
+            int src = e.getSrc(), dest = e.getDest();
+            if (src == node_id || dest == node_id){
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public static void main(String[] args) {
         UndirectedBipartiteGraph g = new UndirectedBipartiteGraph();
@@ -177,6 +201,11 @@ public class UndirectedBipartiteGraph {
 
     }
 
+    /**
+     * Get node's object by node's key-id.
+     * @param key node's key.
+     * @return instance for the requested node.
+     */
     public NodeData getNode(int key){
         for (NodeData v : vertices){
             if (key == v.getKey()){

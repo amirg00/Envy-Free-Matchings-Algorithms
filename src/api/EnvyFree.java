@@ -4,7 +4,7 @@ package api;
 import java.util.ArrayList;
 
 public class EnvyFree {
-    private UndirectedBipartiteGraph bGraph;
+    private UndirectedBipartiteGraph bGraph; /*Bipartite graph: G[X,Y]*/
 
     public EnvyFree(UndirectedBipartiteGraph bGraph){
         this.bGraph = bGraph;
@@ -15,6 +15,19 @@ public class EnvyFree {
      * @return the computed bipartite graph G[X_L, Y_L].
      */
     public UndirectedBipartiteGraph computeSegregation(){
+        // Initializing x_0 with X\X_M vertices
+        ArrayList<NodeData> X_0 = new ArrayList<>();
+        for (NodeData node : bGraph.getDisjointSet_A()){
+            if (!bGraph.isNodeInMatches(node)){
+                X_0.add(node);
+            }
+        }
+
+        ArrayList<ArrayList<NodeData>> X = new ArrayList<>();
+        ArrayList<ArrayList<NodeData>> Y = new ArrayList<>();
+
+        X.add(new ArrayList<>(X_0));
+
 
         return null;
     }
@@ -40,8 +53,17 @@ public class EnvyFree {
      * via the following formula: N_M(Y_i).
      * @return the nodes set X_i.
      */
-    private ArrayList<NodeData> compute_X_i(int i){
-        return null;
+    private ArrayList<NodeData> compute_X_i(int i, ArrayList<NodeData> Y_i){
+        ArrayList<NodeData> X_i = new ArrayList<>();
+        for (NodeData y : Y_i){
+            ArrayList<NodeData> N = bGraph.edgesOut(y.getKey());
+            for (NodeData neighbor : N){
+                if (bGraph.isNodeInMatches(neighbor)){
+                    X_i.add(neighbor);
+                }
+            }
+        }
+        return X_i;
     }
 
 
@@ -50,8 +72,24 @@ public class EnvyFree {
      * via the following recursive formula: Y_i = N_(G\M)(X_(i-1)) \ (union(Y_j : j < i))
      * @return the nodes set Y_i.
      */
-    private ArrayList<NodeData> compute_Y_i(int i){
-        return null;
+    private ArrayList<NodeData> compute_Y_i(int i, ArrayList<ArrayList<NodeData>> Y, ArrayList<NodeData> X_i_minus_1){
+        // union(Y_j : j < i)
+        ArrayList<NodeData> union_y = new ArrayList<>();
+        for (ArrayList<NodeData> y : Y){
+            union_y = union(union_y, y);
+        }
+
+        // N_(G\M)(X_(i-1))
+        ArrayList<NodeData> N = new ArrayList<>();
+        for (NodeData node : X_i_minus_1){
+            for (NodeData neighbor : bGraph.edgesOut(node.getKey())){
+                if (!bGraph.isNodeInMatches(neighbor)){
+                    N.add(neighbor);
+                }
+            }
+        }
+
+        return difference(N, union_y);
     }
 
     /**
