@@ -20,14 +20,14 @@ public class FrameGraph extends JFrame implements ActionListener {
     private Menu menuPanel;
     private JMenuBar menuBar;
     private JMenu fileMenu, runMenu, editMenu,  helpMenu, viewMenu;
-    private JMenuItem RandomGraph, HungarianMethodMenu;
+    private JMenuItem RandomGraph, HungarianMethodMenu, EnvyFreeMaxCard;
     private Engine runner;
 
     public FrameGraph(UndirectedBipartiteGraph graph) {
         this.graph = graph;
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit the app
-        this.setTitle("Hungarian Method"); // title
+        this.setTitle("Envy Free"); // title
         this.setResizable(true); // prevent this to resize
         //this.copyGraphAtBeginning = new DirectedWeightedGraphAlgorithms();
         //this.copyGraphAtBeginning.init(graph);
@@ -93,6 +93,14 @@ public class FrameGraph extends JFrame implements ActionListener {
         }
 
         else if (e.getSource() == HungarianMethodMenu){
+            System.out.println("************ Hungarian Method **************");
+            runner = new Engine(graph, this);
+            runner.start();
+            System.out.println("************ Hungarian Method **************");
+
+        }
+
+        else if (e.getSource() == EnvyFreeMaxCard){
             System.out.println("************ Hungarian Method **************");
             runner = new Engine(graph, this);
             runner.start();
