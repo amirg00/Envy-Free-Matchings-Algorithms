@@ -2,6 +2,7 @@ package api;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class EnvyFree {
     private UndirectedBipartiteGraph bGraph; /*Bipartite graph: G[X,Y]*/
@@ -20,7 +21,7 @@ public class EnvyFree {
         // Initializing x_0 with X\X_M vertices
         ArrayList<NodeData> X_0 = new ArrayList<>();
         for (NodeData node : bGraph.getDisjointSet_A()){
-            if (!bGraph.isNodeInMatches(node)){
+            if (!bGraph.isVertexInMatches(node) && !X_0.contains(node)){
                 X_0.add(node);
             }
         }
@@ -32,8 +33,10 @@ public class EnvyFree {
         ArrayList<ArrayList<NodeData>> Y = new ArrayList<>();
         X.add(new ArrayList<>(X_0));
 
+        System.out.println("WHILE LOOP!!!!");
         int i = 1;
         while (true){
+            System.out.println(i);
             ArrayList<NodeData> Y_i = compute_Y_i(i, Y, X.get(i-1));
             ArrayList<NodeData> X_i = compute_X_i(i, Y_i);
             if (X_i.isEmpty() || Y_i.isEmpty()){break;}
@@ -41,6 +44,7 @@ public class EnvyFree {
             X.add(X_i);
             i++;
         }
+        System.out.println("END WHILE LOOP!!!!");
 
         // Construct the graph G[X_L,Y_L] section.
         ArrayList<NodeData> X_union = unionAll(X);
@@ -79,7 +83,7 @@ public class EnvyFree {
         for (NodeData y : Y_i){
             ArrayList<NodeData> N = bGraph.edgesOut(y.getKey());
             for (NodeData neighbor : N){
-                if (bGraph.isNodeInMatches(neighbor)){
+                if (bGraph.isVertexInMatches(neighbor) && !X_i.contains(neighbor)){
                     X_i.add(neighbor);
                 }
             }
@@ -104,12 +108,11 @@ public class EnvyFree {
         ArrayList<NodeData> N = new ArrayList<>();
         for (NodeData node : X_i_minus_1){
             for (NodeData neighbor : bGraph.edgesOut(node.getKey())){
-                if (!bGraph.isNodeInMatches(neighbor)){
+                if (!bGraph.isVertexInMatches(neighbor) && !N.contains(neighbor)){
                     N.add(neighbor);
                 }
             }
         }
-
         return difference(N, union_y);
     }
 
@@ -161,8 +164,10 @@ public class EnvyFree {
     public ArrayList<EdgeData> intersection(ArrayList<EdgeData> firstSet, ArrayList<EdgeData> secondSet){
         ArrayList<EdgeData> intersection = new ArrayList<>();
         for (EdgeData e : firstSet){
-            if (secondSet.contains(e)){
-                intersection.add(e);
+            for (EdgeData e_sec : secondSet) {
+                if (e.equals(e_sec) && !intersection.contains(e)) {
+                    intersection.add(e);
+                }
             }
         }
         return intersection;

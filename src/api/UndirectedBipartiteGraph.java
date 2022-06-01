@@ -18,18 +18,18 @@ public class UndirectedBipartiteGraph {
         clear();
 
         // Add to group A
-        addNodes(X);
+        addNodes(X, disjointSet_A);
 
         // Add to group B
-        addNodes(Y);
+        addNodes(Y, disjointSet_B);
 
         // Add edges
         connectEdges(graph);
     }
 
-    public void addNodes(ArrayList<NodeData> set){
+    public void addNodes(ArrayList<NodeData> set, ArrayList<NodeData> targetSet){
         for (NodeData node : set){
-            disjointSet_A.add(node);
+            targetSet.add(node);
             vertices.add(node);
             node_size++;
         }
@@ -176,7 +176,9 @@ public class UndirectedBipartiteGraph {
      * @return
      */
     public ArrayList<NodeData> edgesOut(int node_id){
-        return (ArrayList<NodeData>) neighbors.get(node_id).values();
+        HashMap<Integer, NodeData> N = neighbors.get(node_id);
+        Collection<NodeData> nodes = N.values();
+        return new ArrayList<>(nodes);
     }
 
 
@@ -222,18 +224,6 @@ public class UndirectedBipartiteGraph {
         }
         return false;
     }
-
-    public boolean isNodeInMatches(NodeData node){
-        int node_id = node.getKey();
-        for (EdgeData e : matches){
-            int src = e.getSrc(), dest = e.getDest();
-            if (src == node_id || dest == node_id){
-                return false;
-            }
-        }
-        return true;
-    }
-
 
     public static void main(String[] args) {
         UndirectedBipartiteGraph g = new UndirectedBipartiteGraph();

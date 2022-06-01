@@ -305,16 +305,13 @@ public class PanelBipartiteGraph extends JPanel {
 
         }
     }
-//    public void render(){
-//        Timer timer = new Timer(100, new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.out.println("printtttttt");
-//                repaint();
-//            }
-//        });
-//        timer.start();
-//    }
+
+    public void drawAllEdges(Color color, int stroke){
+        for (GraphEdge ge : edges){
+            ge.setTag(color);
+            ge.setStroke(stroke);
+        }
+    }
 
     public void setStopButtonPressed(boolean stopButtonPressed) {
         this.stopButtonPressed = stopButtonPressed;

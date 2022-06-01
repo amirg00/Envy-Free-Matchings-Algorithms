@@ -3,6 +3,7 @@ package api;
 import GraphGui.FrameGraph;
 import GraphGui.PanelBipartiteGraph;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -30,10 +31,14 @@ public class UndirectedBipartiteGraphAlgorithms {
     public void envyFreeMaxCardinality(PanelBipartiteGraph panel, FrameGraph frame){
         EnvyFree algo_1 = new EnvyFree(graph);
         hungarianMethod(panel, frame);
+        panel.drawAllEdges(new Color(204, 204, 204), 2);
+        panel.repaint();
         UndirectedBipartiteGraph isolatedGraph = algo_1.computeSegregation();
         ArrayList<EdgeData> matches = graph.getMatches();
         ArrayList<EdgeData> segregationEdges = isolatedGraph.getEdges();
         ArrayList<EdgeData> intersection = algo_1.intersection(matches, segregationEdges);
+        for (EdgeData e : intersection) {
+            System.out.println(e); panel.drawEdge(e, new Color(226, 32, 33), 3); panel.repaint();}
     }
 
     /**
@@ -94,4 +99,5 @@ public class UndirectedBipartiteGraphAlgorithms {
         System.out.println(constructedGraph.getEdges().toString());
         return constructedGraph;
     }
+
 }
