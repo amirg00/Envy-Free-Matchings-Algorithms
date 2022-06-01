@@ -19,6 +19,7 @@ public class Engine extends Thread{
     private UndirectedBipartiteGraph graph;
     private FrameGraph frame;
     private states currAlgo;
+
     public Engine(UndirectedBipartiteGraph graph, FrameGraph frame, states algo){
         this.graph = graph;
         this.frame = frame;
