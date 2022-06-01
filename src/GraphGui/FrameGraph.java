@@ -20,7 +20,7 @@ public class FrameGraph extends JFrame implements ActionListener {
     private Menu menuPanel;
     private JMenuBar menuBar;
     private JMenu fileMenu, runMenu, editMenu,  helpMenu, viewMenu;
-    private JMenuItem RandomGraph, HungarianMethodMenu, EnvyFreeMaxCard;
+    private JMenuItem RandomGraph, HungarianMethodMenu, EnvyFreeMaxCardMenu;
     private Engine runner;
 
     public FrameGraph(UndirectedBipartiteGraph graph) {
@@ -61,6 +61,11 @@ public class FrameGraph extends JFrame implements ActionListener {
         HungarianMethodMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
         HungarianMethodMenu.addActionListener(this);
 
+        EnvyFreeMaxCardMenu = new JMenuItem("Envy Free Max Cardinality");
+        runMenu.add(EnvyFreeMaxCardMenu);
+        EnvyFreeMaxCardMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        EnvyFreeMaxCardMenu.addActionListener(this);
+
 
         /* Add each menu to the menu bar.*/
         menuBar.add(fileMenu);
@@ -94,15 +99,15 @@ public class FrameGraph extends JFrame implements ActionListener {
 
         else if (e.getSource() == HungarianMethodMenu){
             System.out.println("************ Hungarian Method **************");
-            runner = new Engine(graph, this);
+            runner = new Engine(graph, this, states.HUNGARIAN);
             runner.start();
             System.out.println("************ Hungarian Method **************");
 
         }
 
-        else if (e.getSource() == EnvyFreeMaxCard){
+        else if (e.getSource() == EnvyFreeMaxCardMenu){
             System.out.println("************ Hungarian Method **************");
-            runner = new Engine(graph, this);
+            runner = new Engine(graph, this, states.ENVY_FREE_MAX_CARDINALITY);
             runner.start();
             System.out.println("************ Hungarian Method **************");
 
