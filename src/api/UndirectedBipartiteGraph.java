@@ -10,7 +10,7 @@ public class UndirectedBipartiteGraph {
 
     public UndirectedBipartiteGraph(){
         clear();
-        int randVerticesAmount = 30 + (int) (Math.random() * 30);
+        int randVerticesAmount = 10 + (int) (Math.random() * 30);
         createRandomBipartiteGraph(randVerticesAmount);
     }
 
@@ -99,7 +99,7 @@ public class UndirectedBipartiteGraph {
      */
     public void random_edges_generator() {
         for (NodeData nodeData : disjointSet_A) {
-            int randEdgesAmount = 5 + (int) (Math.random() * (disjointSet_B.size()/5));
+            int randEdgesAmount = 5 + (int) (Math.random() * (disjointSet_B.size()/10));
             int[] distinct_nums = distinct_random_numbers(randEdgesAmount, disjointSet_B.size() - 1, disjointSet_B);
             for (int distinct_num : distinct_nums) {
                 int src = nodeData.getKey();
@@ -111,7 +111,7 @@ public class UndirectedBipartiteGraph {
         }
 
         for (NodeData nodeData : disjointSet_B) {
-            int randEdgesAmount = 5 + (int) (Math.random() * (disjointSet_A.size()/5));
+            int randEdgesAmount = 5 + (int) (Math.random() * (disjointSet_A.size()/10));
             int[] distinct_nums = distinct_random_numbers(randEdgesAmount, disjointSet_A.size() - 1, disjointSet_A);
             for (int distinct_num : distinct_nums) {
                 int src = nodeData.getKey();

@@ -37,6 +37,7 @@ public class UndirectedBipartiteGraphAlgorithms {
         ArrayList<EdgeData> matches = graph.getMatches();
         ArrayList<EdgeData> segregationEdges = isolatedGraph.getEdges();
         ArrayList<EdgeData> intersection = algo_1.intersection(matches, segregationEdges);
+        frame.delay(1000);
         for (EdgeData e : intersection) {
             System.out.println(e); panel.drawEdge(e, new Color(226, 32, 33), 3); panel.repaint();}
     }
