@@ -145,32 +145,6 @@ public class FrameGraph extends JFrame implements ActionListener {
         }
     }
 
-//    /**
-//     * This method navigate between panels, to switch between the login panel to the stage panel.
-//     * @param flag
-//     */
-//    public void PlayButtonPressed(boolean flag){
-//        if (!flag){
-//            this.menuPanel = new Menu();
-//            this.setLocationRelativeTo(null);
-//            this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/GraphGui/Icons/logo.png")));
-//            this.setTitle("Login");
-//            this.add(menuPanel);
-//            centreWindow(this);
-//            this.pack();
-//        }
-//        else{
-//            this.panel = new PanelBipartiteGraph(graph);
-//            menuPanel.setVisible(false);
-//            this.add(panel);
-//            this.setTitle("Pokémon v1.1");
-//            this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/GraphGui/Icons/PokemonLogo.png")));
-//            this.pack();
-//            this.setVisible(true);
-//        }
-//    }
-
-
     public PanelBipartiteGraph getPanel() {
         return panel;
     }
