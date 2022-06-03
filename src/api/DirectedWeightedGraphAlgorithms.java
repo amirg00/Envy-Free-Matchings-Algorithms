@@ -61,8 +61,28 @@ public class DirectedWeightedGraphAlgorithms {
     }
 
     public boolean dijkstra(UndirectedBipartiteGraph bg, PanelBipartiteGraph panel, FrameGraph frame){
-        DirectedWeightedGraph copyGraph = copy();
-        DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(copyGraph, bg);
+        DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph, bg);
+        ArrayList<NodeData> AugmentingPath = dijkstra.getAugmentPath();
+        if (AugmentingPath.isEmpty()) {return false;}
+
+        // Drawing the path
+        drawPath(AugmentingPath, panel , frame);
+        /*Before any drawing, draw the path with purple and red color for unmatched and matched edges accordingly */
+        for (int i = 0; i < AugmentingPath.size() - 1; i++) {
+
+            EdgeData curr = graph.getEdge(AugmentingPath.get(i).getKey(), AugmentingPath.get(i + 1).getKey());
+
+            if (i % 2 == 0) {
+                bg.getMatches().add(curr);
+                /* Here: draw edge in red*/
+                panel.drawEdge(curr, new Color(226, 32, 33), 3);
+            } else {
+                bg.removeDirectEdgeInMatches(curr.getSrc(), curr.getDest());
+                /* draw edge back to silver-gray*/
+                panel.drawEdge(curr, new Color(204, 204, 204), 2);
+            }
+            frame.delay(500);
+        }
         return true;
     }
 

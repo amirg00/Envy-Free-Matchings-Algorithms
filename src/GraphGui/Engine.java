@@ -46,7 +46,7 @@ public class Engine extends Thread{
                 }
             }
         } catch (Exception e) { // User aborted quickSort.
-
+            System.out.println("Errorrrrrrrrrrrrr!");
         } finally {// Make sure running is false and button label is
 
         }

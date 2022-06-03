@@ -14,6 +14,53 @@ public class UndirectedBipartiteGraph {
         createRandomBipartiteGraph(randVerticesAmount);
     }
 
+    /**
+     * A copy constructor
+     * @param bGraph a given bipartite graph.
+     */
+    public UndirectedBipartiteGraph(UndirectedBipartiteGraph bGraph){
+        clear();
+
+        // Add nodes in deep copy
+        // Set A
+        for (NodeData node : bGraph.getDisjointSet_A()){
+            NodeData copyNode = new NodeData(node);
+            neighbors.put(node.getKey(), new HashMap<>());
+            disjointSet_A.add(copyNode);
+            vertices.add(copyNode);
+            node_size++;
+        }
+        // Set B
+        for (NodeData node : bGraph.getDisjointSet_B()){
+            NodeData copyNode = new NodeData(node);
+            neighbors.put(node.getKey(), new HashMap<>());
+            disjointSet_B.add(copyNode);
+            vertices.add(copyNode);
+            node_size++;
+        }
+
+        // Add edges in a deep copy
+        for (EdgeData e : bGraph.edges){
+            int src = e.getSrc(), dest = e.getDest();
+            if ((isVertexIdInGroup(src, disjointSet_A) && isVertexIdInGroup(dest, disjointSet_B))
+                    || (isVertexIdInGroup(src, disjointSet_B) && isVertexIdInGroup(dest, disjointSet_A))){
+                EdgeData copyEdge = new EdgeData(e);
+                neighbors.get(src).put(dest, getNode(dest));
+                neighbors.get(dest).put(src, getNode(src));
+                edges.add(copyEdge);
+                edge_size++;
+            }
+        }
+    }
+
+    /**
+     * Initialize the current graph edges and vertices according to the given two sets
+     * of vertices that are given.
+     * @implNote this isn't a deep copy!
+     * @param graph a given bipartite graph.
+     * @param X a given first set of vertices.
+     * @param Y a given second set of vertices.
+     */
     public UndirectedBipartiteGraph(UndirectedBipartiteGraph graph, ArrayList<NodeData> X, ArrayList<NodeData> Y){
         clear();
 
@@ -86,7 +133,7 @@ public class UndirectedBipartiteGraph {
 
     public NodeData random_vertex_generator(int key) {
         int tag = 1 + (int) (Math.random() * 10);
-        double weight = Math.random() * 10;
+        double weight = 0; // for heights algorithms
         double EPSILON = .000000001;
         double x = 35 + Math.random() * (1- EPSILON), y = 32 + Math.random() * (1- EPSILON), z = 0.0;
         GeoLocation Node = new GeoLocation (x, y, z);
@@ -105,6 +152,7 @@ public class UndirectedBipartiteGraph {
                 int src = nodeData.getKey();
                 if (isEdgeInEdges(src, distinct_num)) {continue;}
                 neighbors.get(src).put(distinct_num, getNode(distinct_num));
+                neighbors.get(distinct_num).put(src, getNode(src));
                 edges.add(random_edge_generator(src, distinct_num));
                 edge_size++;
             }
@@ -117,6 +165,7 @@ public class UndirectedBipartiteGraph {
                 int src = nodeData.getKey();
                 if (isEdgeInEdges(src, distinct_num)) {continue;}
                 neighbors.get(src).put(distinct_num, getNode(distinct_num));
+                neighbors.get(distinct_num).put(src, getNode(src));
                 edges.add(random_edge_generator(src, distinct_num));
                 edge_size++;
             }
