@@ -20,7 +20,7 @@ public class FrameGraph extends JFrame implements ActionListener {
     private Menu menuPanel;
     private JMenuBar menuBar;
     private JMenu fileMenu, runMenu, editMenu,  helpMenu, viewMenu;
-    private JMenuItem RandomGraph, HungarianMethodMenu, EnvyFreeMaxCardMenu, EnvyFreeMaxWeightMenu;
+    private JMenuItem RandomGraph, HungarianMethodMenu, EnvyFreeMaxCardMenu, EnvyFreeMaxWeightMenu, EdgeTable, VertexTable;
     private Engine runner;
 
     public FrameGraph(UndirectedBipartiteGraph graph) {
@@ -79,7 +79,15 @@ public class FrameGraph extends JFrame implements ActionListener {
         menuBar.add(helpMenu);
         this.setJMenuBar(menuBar);
 
-
+        /*Tables: */
+        EdgeTable = new JMenuItem("Edges Table");
+        EdgeTable.addActionListener(this);
+        EdgeTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        VertexTable = new JMenuItem("Vertices Table");
+        VertexTable.addActionListener(this);
+        VertexTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        viewMenu.add(VertexTable);
+        viewMenu.add(EdgeTable);
 
         this.panel = new PanelBipartiteGraph(graph);
         //menuPanel.setVisible(false);
@@ -123,6 +131,14 @@ public class FrameGraph extends JFrame implements ActionListener {
             runner.start();
             System.out.println("************ Hungarian Method **************");
 
+        }
+
+        else if (e.getSource() == VertexTable){
+            new VertexTable(graph);
+        }
+
+        else if (e.getSource() == EdgeTable){
+            new EdgeTable(graph);
         }
     }
 
