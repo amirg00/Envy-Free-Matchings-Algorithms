@@ -24,24 +24,45 @@ import java.util.Iterator;
 public class DijkstraAlgorithm {
 
     private DirectedWeightedGraph g;
+    private UndirectedBipartiteGraph bg;
     private HashMap<Integer,Double> dist;
-    private HashMap<Integer, Integer> parent;
+    private HashMap<Integer, Integer> parent, height;
     private FibonacciHeap<Integer> dists;
+    private ArrayList<NodeData> augmentPath;
     private int src;
     private final Double INF = Double.MAX_VALUE;
 
-    public DijkstraAlgorithm(int src, DirectedWeightedGraph g) {
+    public DijkstraAlgorithm(DirectedWeightedGraph g, UndirectedBipartiteGraph bg) {
         // Properties initialization //
-        this.src = src;
         this.g = g;
+        this.bg = bg;
+        this.height = new HashMap<>();
         clear();
+
+
+        // Traverse from unsaturated node in A
+        for (NodeData v : bg.getDisjointSet_A()){
+            clear();
+            if (!bg.isVertexInMatches(v)){
+                src = v.getKey();
+                findMinDist();
+                Iterator<NodeData> nodes = g.nodeIter();
+                while (nodes.hasNext()) {
+                    NodeData curr = nodes.next();
+                    // check if there is an augmenting path
+                    if (checkVisitedInMatchComplete(curr, bg.getDisjointSet_B())) {
+                        augmentPath = getAugmentingPath(curr.getKey());
+                        return;
+                    }
+                }
+            }
+        }
     }
     public enum Tags{
         VISITED(1),
         UNVISITED(0);
 
         private final int value;
-
 
         Tags(int value) {this.value = value;}
     }
@@ -57,6 +78,30 @@ public class DijkstraAlgorithm {
         dists.enqueue(src,0.0);
     }
 
+    public boolean checkVisitedInMatchComplete(NodeData v, ArrayList<NodeData> group){
+        return  v.getTag() == Tags.VISITED.value
+                && !bg.isVertexInMatches(v)
+                &&  bg.isVertexInGroup(v, group);
+    }
+
+
+    public void init(){
+        // Initialize all nodes' height to 0.
+        Iterator<NodeData> nodes = g.nodeIter();
+        while (nodes.hasNext()){
+            height.put(nodes.next().getKey(), 0);
+        }
+
+        // Negate edges' weight: Multiply edges' weight by -1.
+        // Then after applying the minimum unbalanced problem,
+        // by minimum hungarian method gives max. weighted matching.
+        Iterator<EdgeData> edges = g.edgeIter();
+        while (edges.hasNext()){
+            EdgeData currEdge = edges.next();
+            currEdge.setWeight(currEdge.getWeight() * (-1));
+        }
+    }
+
     /**
      * The method here visits all vertices to find the optimal path's cost, and return it.
      * The method starts with the source vertex, if it is the destination vertex, then it saves the pointer,
@@ -68,7 +113,7 @@ public class DijkstraAlgorithm {
      *
      * @return the optimal path's cost from src to dest.
      */
-    public HashMap<Integer, Double> findMinDist() {
+    private void findMinDist() {
         Iterator<NodeData> nodes = g.nodeIter();
         while (nodes.hasNext()){
             NodeData curr = nodes.next();
@@ -100,7 +145,6 @@ public class DijkstraAlgorithm {
                 }
             }
         }
-        return dist;
     }
 
     /**
@@ -111,7 +155,7 @@ public class DijkstraAlgorithm {
      *
      * @implNote At the end, we will get the objects list with the following order: {src, ..., dest}.
      */
-    public ArrayList<NodeData> getOptimalPath(int dest){
+    public ArrayList<NodeData> getAugmentingPath(int dest){
         ArrayList<NodeData> path = new ArrayList<>();
         int curr_parent = dest;
 
@@ -169,4 +213,6 @@ public class DijkstraAlgorithm {
         printOptimalPathUtil(parent, parent[dest]);
         System.out.print(dest + " ");
     }
+
+    public ArrayList<NodeData> getAugmentPath() {return augmentPath;}
 }

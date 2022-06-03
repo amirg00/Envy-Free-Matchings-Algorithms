@@ -52,6 +52,18 @@ public class UndirectedBipartiteGraphAlgorithms {
         UndirectedBipartiteGraph isolatedGraph = algo_1.computeSegregation();
     }
 
+    public void weightedHungarianMethod(PanelBipartiteGraph panel, FrameGraph frame) {
+        graph.setMatches(new ArrayList<>()); // M = ϕ
+        //panel.render();
+        while (true){
+            DirectedWeightedGraph g = constructDirectedGraph();
+            DirectedWeightedGraphAlgorithms g_algo = new DirectedWeightedGraphAlgorithms();
+            g_algo.init(g);
+            boolean status = g_algo.dijkstra(graph, panel, frame); // Performs bfs from an unsaturated vertex in A.
+            if (!status) {System.out.println(Arrays.toString(graph.getMatches().toArray()));break;}
+        }
+    }
+
     public void hungarianMethod(PanelBipartiteGraph panel, FrameGraph frame) {
         graph.setMatches(new ArrayList<>()); // M = ϕ
         //panel.render();

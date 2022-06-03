@@ -11,7 +11,7 @@ import java.util.*;
 public class DirectedWeightedGraphAlgorithms {
 
     private DirectedWeightedGraph graph;
-    private Timer timer;
+
     public void init(DirectedWeightedGraph g) { this.graph = g; }
 
     public DirectedWeightedGraph getGraph() {
@@ -58,6 +58,12 @@ public class DirectedWeightedGraphAlgorithms {
             return true;
         }
         return false;
+    }
+
+    public boolean dijkstra(UndirectedBipartiteGraph bg, PanelBipartiteGraph panel, FrameGraph frame){
+        DirectedWeightedGraph copyGraph = copy();
+        DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(copyGraph, bg);
+        return true;
     }
 
     public void drawPath(ArrayList<NodeData> path, PanelBipartiteGraph panel, FrameGraph frame) {

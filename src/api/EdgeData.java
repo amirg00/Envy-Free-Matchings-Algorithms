@@ -53,6 +53,7 @@ public class EdgeData {
         this.tag = t;
     }
 
+    public void setWeight(double weight) {this.weight = weight;}
 
     // equals method for edges
     public boolean equals(EdgeData other){
