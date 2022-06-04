@@ -81,10 +81,11 @@ public class EnvyFree {
     private ArrayList<NodeData> compute_X_i(int i, ArrayList<NodeData> Y_i){
         ArrayList<NodeData> X_i = new ArrayList<>();
         for (NodeData y : Y_i){
-            ArrayList<NodeData> N = bGraph.edgesOut(y.getKey());
-            for (NodeData neighbor : N){
-                if (bGraph.isVertexInMatches(neighbor) && !X_i.contains(neighbor)){
-                    X_i.add(neighbor);
+            ArrayList<EdgeData> N = bGraph.edgesOut(y.getKey());
+            for (EdgeData neighbor : N){
+                NodeData destNode = bGraph.getNode(neighbor.getDest());
+                if (bGraph.isEdgeInMatch(neighbor) && !X_i.contains(destNode)){
+                    X_i.add(destNode);
                 }
             }
         }
@@ -107,9 +108,10 @@ public class EnvyFree {
         // N_(G\M)(X_(i-1))
         ArrayList<NodeData> N = new ArrayList<>();
         for (NodeData node : X_i_minus_1){
-            for (NodeData neighbor : bGraph.edgesOut(node.getKey())){
-                if (!bGraph.isVertexInMatches(neighbor) && !N.contains(neighbor)){
-                    N.add(neighbor);
+            for (EdgeData neighbor : bGraph.edgesOut(node.getKey())){
+                NodeData destNode = bGraph.getNode(neighbor.getDest());
+                if (!bGraph.isEdgeInMatch(neighbor) && !N.contains(destNode)){
+                    N.add(destNode);
                 }
             }
         }

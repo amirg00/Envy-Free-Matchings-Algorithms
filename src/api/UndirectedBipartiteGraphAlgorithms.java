@@ -28,7 +28,7 @@ public class UndirectedBipartiteGraphAlgorithms {
     /**
      * Method finds an envy free matching with maximum cardinality.
      */
-    public void envyFreeMaxCardinality(PanelBipartiteGraph panel, FrameGraph frame){
+    public int envyFreeMaxCardinality(PanelBipartiteGraph panel, FrameGraph frame){
         EnvyFree envy_free_algo = new EnvyFree(graph);
         hungarianMethod(panel, frame);
         panel.drawAllEdges(new Color(204, 204, 204), 2);
@@ -40,6 +40,7 @@ public class UndirectedBipartiteGraphAlgorithms {
         frame.delay(1000);
         for (EdgeData e : intersection) {
             System.out.println(e); panel.drawEdge(e, new Color(226, 32, 33), 3); panel.repaint();}
+        return intersection.size();
     }
 
     /**
