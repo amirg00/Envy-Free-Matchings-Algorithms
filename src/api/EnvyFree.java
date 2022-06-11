@@ -58,22 +58,6 @@ public class EnvyFree {
     }
 
     /**
-     * Compute χ = (X_0, ..., X_k).
-     * @return χ nodes list.
-     */
-    private ArrayList<NodeData> computeX(){
-        return null;
-    }
-
-    /**
-     * Compute Υ = (Υ_1, ..., Υ_k).
-     * @return Υ nodes list.
-     */
-    private ArrayList<NodeData> computeY(){
-        return null;
-    }
-
-    /**
      * Method computes the node's set X_i,
      * via the following formula: N_M(Y_i).
      * @return the nodes set X_i.
