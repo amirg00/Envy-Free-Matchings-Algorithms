@@ -116,7 +116,7 @@ public class UndirectedBipartiteGraph {
         node_size++;
     }
 
-    public void connect(int src, int dest, int weight){
+    public void connect(int src, int dest, double weight){
         EdgeData e = random_edge_generator(src, dest);
         e.setWeight(weight);
         neighbors.get(src).put(dest, e);
@@ -330,6 +330,13 @@ public class UndirectedBipartiteGraph {
         return isEdgeInSet(src, dest, edges);
     }
 
+    /**
+     * Checks if an undirected edge is in a certain set of the graph.
+     * @param src first vertex
+     * @param dest second vertex
+     * @param set
+     * @return
+     */
     public boolean isEdgeInSet(int src, int dest, ArrayList<EdgeData> set){
         for (EdgeData e : set){
             if ((e.getSrc() == src && e.getDest() == dest) || (e.getSrc() == dest && e.getDest() == src)){

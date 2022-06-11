@@ -1,5 +1,6 @@
 package GraphGui;
 
+import GraphGui.ManualGen.GraphEditor;
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
 import api.UndirectedBipartiteGraph;
@@ -15,12 +16,15 @@ public class FrameGraph extends JFrame implements ActionListener {
 
     //private DirectedWeightedGraph graph, copyGraph;
     //private DirectedWeightedGraphAlgorithms copyGraphAtBeginning;
+    private GraphEditor graphEditor;
     private UndirectedBipartiteGraph graph;
     private PanelBipartiteGraph panel;
     private Menu menuPanel;
     private JMenuBar menuBar;
     private JMenu fileMenu, runMenu, editMenu,  helpMenu, viewMenu;
-    private JMenuItem RandomGraph, HungarianMethodMenu, EnvyFreeMaxCardMenu, EnvyFreeMaxWeightMenu, EdgeTable, VertexTable;
+    private JMenuItem RandomGraph, HungarianMethodMenu, EnvyFreeMaxCardMenu, EnvyFreeMaxWeightMenu, EdgeTable, VertexTable,
+    newGraph, loadNewGraph;
+
     private Engine runner;
 
     public FrameGraph(UndirectedBipartiteGraph graph) {
@@ -48,11 +52,21 @@ public class FrameGraph extends JFrame implements ActionListener {
         runMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
         helpMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
+        /*Files*/
         RandomGraph = new JMenuItem("Create Random Graph");
         RandomGraph.setCursor(new Cursor(Cursor.HAND_CURSOR));
         fileMenu.add(RandomGraph);
         RandomGraph.addActionListener(this);
 
+        newGraph = new JMenuItem("New");
+        newGraph.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        fileMenu.add(newGraph);
+        newGraph.addActionListener(this);
+
+        loadNewGraph = new JMenuItem("Load Last Graph");
+        loadNewGraph.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        fileMenu.add(loadNewGraph);
+        loadNewGraph.addActionListener(this);
 
 
         /* Algorithm which belongs to the run menu*/
@@ -107,6 +121,19 @@ public class FrameGraph extends JFrame implements ActionListener {
             panel.setGraph(graph);
             panel.repaint();
             System.out.println("...");
+        }
+
+        else if (e.getSource() == newGraph){
+            System.out.println("ggggggggggggg");
+            graphEditor = new GraphEditor();
+        }
+
+        else if (e.getSource() == loadNewGraph){
+            if (graphEditor.getGraph() != null){
+                graph = graphEditor.getGraph();
+                panel.setGraph(graph);
+                panel.repaint();
+            }
         }
 
         else if (e.getSource() == HungarianMethodMenu){

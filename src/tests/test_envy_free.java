@@ -1,14 +1,11 @@
 package tests;
 import GraphGui.FrameGraph;
-import GraphGui.PanelBipartiteGraph;
 import api.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class test_envy_free {
     UndirectedBipartiteGraphAlgorithms bg_algo;
     UndirectedBipartiteGraphAlgorithms bg_algo_2;
