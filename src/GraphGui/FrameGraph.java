@@ -14,12 +14,9 @@ import java.awt.event.ActionListener;
 
 public class FrameGraph extends JFrame implements ActionListener {
 
-    //private DirectedWeightedGraph graph, copyGraph;
-    //private DirectedWeightedGraphAlgorithms copyGraphAtBeginning;
     private GraphEditor graphEditor;
     private UndirectedBipartiteGraph graph;
     private PanelBipartiteGraph panel;
-    private Menu menuPanel;
     private JMenuBar menuBar;
     private JMenu fileMenu, runMenu, editMenu,  helpMenu, viewMenu;
     private JMenuItem RandomGraph, HungarianMethodMenu, EnvyFreeMaxCardMenu, EnvyFreeMaxWeightMenu, EdgeTable, VertexTable,
@@ -33,9 +30,6 @@ public class FrameGraph extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit the app
         this.setTitle("Envy Free"); // title
         this.setResizable(true); // prevent this to resize
-        //this.copyGraphAtBeginning = new DirectedWeightedGraphAlgorithms();
-        //this.copyGraphAtBeginning.init(graph);
-        //this.copyGraph = copyGraphAtBeginning.copy();
         this.setVisible(true);
 
         menuBar = new JMenuBar();
@@ -104,11 +98,8 @@ public class FrameGraph extends JFrame implements ActionListener {
         viewMenu.add(EdgeTable);
 
         this.panel = new PanelBipartiteGraph(graph);
-        //menuPanel.setVisible(false);
         this.add(panel);
-
         centreWindow(this);
-        //this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/GraphGui/Icons/(add image).png")));
         this.pack();
         this.setVisible(true);
     }
@@ -137,27 +128,18 @@ public class FrameGraph extends JFrame implements ActionListener {
         }
 
         else if (e.getSource() == HungarianMethodMenu){
-            System.out.println("************ Hungarian Method **************");
             runner = new Engine(graph, this, states.HUNGARIAN);
             runner.start();
-            System.out.println("************ Hungarian Method **************");
-
         }
 
         else if (e.getSource() == EnvyFreeMaxCardMenu){
-            System.out.println("************ Hungarian Method **************");
             runner = new Engine(graph, this, states.ENVY_FREE_MAX_CARDINALITY);
             runner.start();
-            System.out.println("************ Hungarian Method **************");
-
         }
 
         else if (e.getSource() == EnvyFreeMaxWeightMenu){
-            System.out.println("************ Hungarian Method **************");
             runner = new Engine(graph, this, states.ENVY_FREE_MAX_WEIGHT);
             runner.start();
-            System.out.println("************ Hungarian Method **************");
-
         }
 
         else if (e.getSource() == VertexTable){
@@ -190,10 +172,6 @@ public class FrameGraph extends JFrame implements ActionListener {
 
     public PanelBipartiteGraph getPanel() {
         return panel;
-    }
-
-    public boolean getPlayButtonState(){
-       return this.menuPanel.getPlayButtonState();
     }
 
 

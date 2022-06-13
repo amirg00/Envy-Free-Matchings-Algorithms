@@ -1,8 +1,6 @@
 package api;
 
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class EnvyFree {
     private UndirectedBipartiteGraph bGraph; /*Bipartite graph: G[X,Y]*/
@@ -33,7 +31,6 @@ public class EnvyFree {
         ArrayList<ArrayList<NodeData>> Y = new ArrayList<>();
         X.add(new ArrayList<>(X_0));
 
-        System.out.println("WHILE LOOP!!!!");
         int i = 1;
         while (true){
             System.out.println(i);
@@ -44,7 +41,6 @@ public class EnvyFree {
             X.add(X_i);
             i++;
         }
-        System.out.println("END WHILE LOOP!!!!");
 
         // Construct the graph G[X_L,Y_L] section.
         ArrayList<NodeData> X_union = unionAll(X);
@@ -76,7 +72,6 @@ public class EnvyFree {
         return X_i;
     }
 
-
     /**
      * Method computes the node's set Y_i,
      * via the following recursive formula: Y_i = N_(G\M)(X_(i-1)) \ (union(Y_j : j < i))
@@ -102,6 +97,11 @@ public class EnvyFree {
         return difference(N, union_y);
     }
 
+    /**
+     * Method unions all the given sets.
+     * @param sets the sets of nodes.
+     * @return the union of all the sets.
+     */
     private ArrayList<NodeData> unionAll(ArrayList<ArrayList<NodeData>> sets){
         ArrayList<NodeData> union = new ArrayList<>();
         for (ArrayList<NodeData> set : sets){

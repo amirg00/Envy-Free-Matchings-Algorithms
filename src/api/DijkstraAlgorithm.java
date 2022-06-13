@@ -161,6 +161,7 @@ public class DijkstraAlgorithm {
      * @return the optimal path's cost from src to dest.
      */
     private void findMinDist() {
+        // Set weights of the vertices
         Iterator<NodeData> nodes = g.nodeIter();
         while (nodes.hasNext()){
             NodeData curr = nodes.next();
@@ -172,15 +173,15 @@ public class DijkstraAlgorithm {
             parent.put(curr_id,-1);
         }
 
+        // Traverse vertices from root and relax weights.
         while (!dists.isEmpty()){
-            System.out.println("1");
             int check = dists.dequeueMin().getValue();
             NodeData Check = g.getNode(check);
             Check.setTag(Tags.VISITED.value);
 
+            // traverse current minimal weighted vertex's neighbors.
             Iterator<EdgeData> neighbours = g.edgeIter(check);
             while (neighbours.hasNext()){
-                System.out.println("2");
                 EdgeData curr = neighbours.next();
                 int curr_id = curr.getDest();
                 NodeData currN = g.getNode(curr_id);
@@ -194,7 +195,6 @@ public class DijkstraAlgorithm {
                 }
             }
         }
-        System.out.println("3");
     }
 
     /**
@@ -207,17 +207,13 @@ public class DijkstraAlgorithm {
      */
     public ArrayList<NodeData> getAugmentingPath(int dest){
         if (dest == -1) {return new ArrayList<>();}
-
         ArrayList<NodeData> path = new ArrayList<>();
         int curr_parent = dest;
 
         while(curr_parent!=src){
-            System.out.println(curr_parent);
             path.add(0,g.getNode(curr_parent));
             curr_parent = parent.get(curr_parent);
         }
-        System.out.println("src: " + src);
-        //path.add(0,g.getNode(src));
         return path;
     }
 

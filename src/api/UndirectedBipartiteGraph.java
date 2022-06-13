@@ -74,6 +74,11 @@ public class UndirectedBipartiteGraph {
         connectEdges(graph);
     }
 
+    /**
+     * Method adds a set of nodes to a targeted set.
+     * @param set a given set of nodes to add.
+     * @param targetSet target nodes set.
+     */
     public void addNodes(ArrayList<NodeData> set, ArrayList<NodeData> targetSet){
         for (NodeData node : set){
             targetSet.add(node);
@@ -82,6 +87,10 @@ public class UndirectedBipartiteGraph {
         }
     }
 
+    /**
+     * The method adds the graph's edges to the current graph.
+     * @param graph a given undirected bipartite graph.
+     */
     public void connectEdges(UndirectedBipartiteGraph graph){
         for (EdgeData e : graph.edges){
             int src = e.getSrc(), dest = e.getDest();
@@ -93,18 +102,36 @@ public class UndirectedBipartiteGraph {
         }
     }
 
+    /**
+     * Method adds random node with the given node's id to the current graph,
+     * using the addNode utility.
+     * @param node_id a given node's id
+     * @param set a given string representing set of nodes ("A" or "B").
+     */
     public void addNode(int node_id, String set){
         NodeData randNode = random_vertex_generator(node_id);
         addNodeUtil(randNode, set);
     }
 
+    /**
+     * Method adds random node with the given node's id to the current graph,
+     * using the addNode utility, with a given location.
+     * @implNote note that this method adds the given location.
+     * @param node_id a given node's id.
+     * @param set a given string representing set of nodes ("A" or "B").
+     * @param location a given geo-location object.
+     */
     public void addNode(int node_id, String set, GeoLocation location){
         NodeData randNode = random_vertex_generator(node_id, location);
         addNodeUtil(randNode, set);
     }
 
+    /**
+     * Utility method for adding node to a given set - represented as a string.
+     * @param randNode a given random node.
+     * @param set "A" for set A and "B" for set B.
+     */
     public void addNodeUtil(NodeData randNode, String set){
-       // NodeData randNode = random_vertex_generator(node_id, location);
         if (set.equals("A")) {
             disjointSet_A.add(randNode);
         }
@@ -116,6 +143,14 @@ public class UndirectedBipartiteGraph {
         node_size++;
     }
 
+    /**
+     * Method connects the undirected edge where first vertex in src, and second is dest,
+     * with the given weight.
+     * @implNote connects without weight!
+     * @param src given source id.
+     * @param dest given destination id.
+     * @param weight a given weight.
+     */
     public void connect(int src, int dest, double weight){
         EdgeData e = random_edge_generator(src, dest);
         e.setWeight(weight);
@@ -125,6 +160,12 @@ public class UndirectedBipartiteGraph {
         edge_size++;
     }
 
+    /**
+     * Method connects the undirected edge where first vertex in src, and second is dest.
+     * @implNote connects without weight!
+     * @param src given source id.
+     * @param dest given destination id.
+     */
     public void connect(int src, int dest){
         EdgeData e = random_edge_generator(src, dest);
         neighbors.get(src).put(dest, e);
@@ -145,8 +186,6 @@ public class UndirectedBipartiteGraph {
         vertices = new ArrayList<>();
         neighbors = new HashMap<>();
     }
-
-
 
     /**
      * Creates a random bipartite graph by a given amount of vertices.
@@ -203,6 +242,7 @@ public class UndirectedBipartiteGraph {
      * Creates the graph's edges in random.
      */
     public void random_edges_generator() {
+        // Generate random edges for set A
         for (NodeData nodeData : disjointSet_A) {
             int randEdgesAmount = 5 + (int) (Math.random() * (disjointSet_B.size()/10));
             int[] distinct_nums = distinct_random_numbers(randEdgesAmount, disjointSet_B.size() - 1, disjointSet_B);
@@ -210,7 +250,6 @@ public class UndirectedBipartiteGraph {
                 int src = nodeData.getKey();
                 if (isEdgeInEdges(src, distinct_num)) {continue;}
                 EdgeData randEdge = random_edge_generator(src, distinct_num);
-
                 neighbors.get(src).put(distinct_num, randEdge);
                 neighbors.get(distinct_num).put(src, randEdge);
                 edges.add(randEdge);
@@ -218,6 +257,7 @@ public class UndirectedBipartiteGraph {
             }
         }
 
+        // Generate random edges for set B
         for (NodeData nodeData : disjointSet_B) {
             int randEdgesAmount = 5 + (int) (Math.random() * (disjointSet_A.size()/10));
             int[] distinct_nums = distinct_random_numbers(randEdgesAmount, disjointSet_A.size() - 1, disjointSet_A);
@@ -270,7 +310,10 @@ public class UndirectedBipartiteGraph {
         return bs.stream().toArray();
     }
 
-    //TODO: check this function, check isn't good...
+    /**
+     * @param v a given node's reference.
+     * @return true iff a given node's reference is saturated, o.w., return false.
+     */
     public boolean isVertexInMatches(NodeData v){
         for (EdgeData currMatch : matches) {
             if (currMatch.getSrc() == v.getKey() || currMatch.getDest() == v.getKey()) {
@@ -283,7 +326,7 @@ public class UndirectedBipartiteGraph {
     /**
      * The method returns the neighbors of the node, returned as NodeData object.
      * @param node_id node's id.
-     * @return
+     * @return the array list with those neighbors.
      */
     public ArrayList<EdgeData> edgesOut(int node_id){
         HashMap<Integer, EdgeData> N = neighbors.get(node_id);
@@ -291,7 +334,12 @@ public class UndirectedBipartiteGraph {
         return new ArrayList<>(edges);
     }
 
-
+    /**
+     * @param src a given source id.
+     * @param dest a given destination id.
+     * @return true iff the directed edge can be found in matches set,
+     * which means that src and dest can be found in the matches set as an edge.
+     */
     public boolean isDirectEdgeInMatches(int src, int dest){
         for (EdgeData currMatch : matches){
             if ((currMatch.getSrc() == src && currMatch.getDest() == dest)
@@ -302,12 +350,22 @@ public class UndirectedBipartiteGraph {
         return false;
     }
 
+    /**
+     * Method removes a directed edge in matches.
+     * @param src a given source id.
+     * @param dest a given destination id.
+     */
     public void removeDirectEdgeInMatches(int src, int dest){
         matches.removeIf(currMatch ->
                    (currMatch.getSrc() == src && currMatch.getDest() == dest)
                 || (currMatch.getSrc() == dest && currMatch.getDest() == src));
     }
 
+    /**
+     * @param v node's reference
+     * @param group a given nodes set
+     * @return true iff a given node's reference can be found in the given set.
+     */
     public boolean isVertexInGroup(NodeData v, ArrayList<NodeData> group){
         for(NodeData v_A : group){
             if(v_A.equals(v)){
@@ -317,6 +375,11 @@ public class UndirectedBipartiteGraph {
         return false;
     }
 
+    /**
+     * @param node_id node's id
+     * @param group a given nodes set
+     * @return true iff the given node with the node's id can be found in the given set.
+     */
     public boolean isVertexIdInGroup(int node_id, ArrayList<NodeData> group){
         for(NodeData v : group){
             if(v.getKey() == node_id){
@@ -326,6 +389,11 @@ public class UndirectedBipartiteGraph {
         return false;
     }
 
+    /**
+     * @param src src node's id
+     * @param dest dest node's id
+     * @return true iff the given edge is in the current edges set.
+     */
     public boolean isEdgeInEdges(int src, int dest){
         return isEdgeInSet(src, dest, edges);
     }
@@ -334,8 +402,8 @@ public class UndirectedBipartiteGraph {
      * Checks if an undirected edge is in a certain set of the graph.
      * @param src first vertex
      * @param dest second vertex
-     * @param set
-     * @return
+     * @param set a given set of edges
+     * @return true if an undirected edge is in a certain set of the graph, o.w., return false.
      */
     public boolean isEdgeInSet(int src, int dest, ArrayList<EdgeData> set){
         for (EdgeData e : set){
@@ -346,6 +414,10 @@ public class UndirectedBipartiteGraph {
         return false;
     }
 
+    /**
+     * @param e a given edge
+     * @return true iff the given edge in the matches list, o.w., return false.
+     */
     public boolean isEdgeInMatch(EdgeData e){
         for (EdgeData match : matches){
             if (match.equals(e)){

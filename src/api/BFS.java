@@ -16,15 +16,22 @@ public class BFS {
     private ArrayList<NodeData> augmentPath;
 
 
+    /**
+     * Tags for the nodes to check if visited or not visited.
+     */
     public enum Tags{
         VISITED(1),
         UNVISITED(0);
-
         private final int value;
-
         Tags(int value) {this.value = value;}
     }
 
+    /**
+     * Constructor performs bfs traversal from an unsaturated vertex in A,
+     * to an unsaturated vertex in B, then it finds the augmenting path.
+     * @param g a directed graph.
+     * @param bg an undirected bipartite graph.
+     */
     public BFS(DirectedWeightedGraph g, UndirectedBipartiteGraph bg){
         this.g = g;
         this.bg = bg;
@@ -33,6 +40,7 @@ public class BFS {
         parent = new HashMap<>();
         augmentPath = new ArrayList<>();
 
+        // Traverse all unsaturated vertices from set A
         for (NodeData v : bg.getDisjointSet_A()){
             clear();
             if (!bg.isVertexInMatches(v)){
@@ -50,6 +58,9 @@ public class BFS {
         }
     }
 
+    /**
+     * Method clears the properties.
+     */
     public void clear(){
         q = new ArrayDeque<>();
         setTags(Tags.UNVISITED.value); // set all vertices to be unvisited for next BFS traversal.
@@ -57,6 +68,12 @@ public class BFS {
         augmentPath = new ArrayList<>();
     }
 
+    /**
+     * Method checks if the given node is in the complement of the given group.
+     * @param v a given node
+     * @param group a given set.
+     * @return true iff v is in the complement of group in terms of in match or not, o.w., returns false.
+     */
     public boolean checkVisitedInMatchComplete(NodeData v, ArrayList<NodeData> group){
         return  v.getTag() == Tags.VISITED.value
                 && !bg.isVertexInMatches(v)
@@ -86,6 +103,8 @@ public class BFS {
             Integer curr = q.remove();
             Iterator<EdgeData> neighbours = g.edgeIter(curr);
             if (neighbours == null) {return;}
+
+            // Traverse neighbors of current node
             while (neighbours.hasNext()) {
                 EdgeData currEdge = neighbours.next();
                 int curr_id = currEdge.getDest();
@@ -129,7 +148,6 @@ public class BFS {
         Iterator<NodeData> nodes = g.nodeIter();
         while(nodes.hasNext()){nodes.next().setTag(value);}
     }
-
 
     public ArrayList<NodeData> getAugmentPath() {return augmentPath;}
 }
