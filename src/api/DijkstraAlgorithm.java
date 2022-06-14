@@ -62,10 +62,10 @@ public class DijkstraAlgorithm {
         // Get current minimum augmenting path
         augmentPath = findMinAugmentPath();
         if (augmentPath != null) {
-            System.out.println(augmentPath.size());
+            System.out.println("Augmenting path in size of: " + augmentPath.size());
         }
         else {
-            System.out.println("-1");
+            System.out.println("No augmenting path to be found!");
         }
 
         // Update edges weight at the end
@@ -74,9 +74,7 @@ public class DijkstraAlgorithm {
     public enum Tags{
         VISITED(1),
         UNVISITED(0);
-
         private final int value;
-
         Tags(int value) {this.value = value;}
     }
 
@@ -85,16 +83,11 @@ public class DijkstraAlgorithm {
         this.dists = new FibonacciHeap<>();
         this.dist = new HashMap<>();
         this.parent = new HashMap<>();
+
         // Updates source vertex related properties
         setTags(Tags.UNVISITED.value);
         dist.put(src,0.0);
         dists.enqueue(src,0.0);
-    }
-
-    public boolean checkVisitedInMatchComplete(NodeData v, ArrayList<NodeData> group){
-        return  v.getTag() == Tags.VISITED.value
-                && !bg.isVertexInMatches(v)
-                &&  bg.isVertexInGroup(v, group);
     }
 
     /**
@@ -109,6 +102,10 @@ public class DijkstraAlgorithm {
         }
     }
 
+    /**
+     * Look for visited unsaturated nodes in B, and find the optimal path in weights.
+     * @return the optimal path as an arraylist of nodes, which has the minimal weights sum.
+     */
     public ArrayList<NodeData> findMinAugmentPath(){
         int minNodeID = -1;
         double minDist = Double.MAX_VALUE;
@@ -132,23 +129,6 @@ public class DijkstraAlgorithm {
         return getAugmentingPath(minNodeID);
     }
 
-    public void init(){
-        // Initialize all nodes' height to 0.
-        Iterator<NodeData> nodes = g.nodeIter();
-        while (nodes.hasNext()){
-            //height.put(nodes.next().getKey(), 0);
-        }
-
-        // Negate edges' weight: Multiply edges' weight by -1.
-        // Then after applying the minimum unbalanced problem,
-        // by minimum hungarian method gives max. weighted matching.
-        Iterator<EdgeData> edges = g.edgeIter();
-        while (edges.hasNext()){
-            EdgeData currEdge = edges.next();
-            currEdge.setWeight(currEdge.getWeight() * (-1));
-        }
-    }
-
     /**
      * The method here visits all vertices to find the optimal path's cost, and return it.
      * The method starts with the source vertex, if it is the destination vertex, then it saves the pointer,
@@ -157,8 +137,6 @@ public class DijkstraAlgorithm {
      * In addition, if the current check node hasn't visited yet, then it adds the vertex's id
      * to the visited nodes list, and also check for his neighbours with the currentNeighbours,
      * to see which one of the neighbours is the optimal one (exactly as doing in greedy approach).
-     *
-     * @return the optimal path's cost from src to dest.
      */
     private void findMinDist() {
         // Set weights of the vertices
@@ -187,6 +165,8 @@ public class DijkstraAlgorithm {
                 NodeData currN = g.getNode(curr_id);
                 if (currN.getTag()!=Tags.VISITED.value) {
                     double newDist = dist.get(check) + curr.getWeight();
+
+                    // relax
                     if (newDist < dist.get(curr_id)) {
                         dist.put(curr_id,newDist);
                         parent.put(curr_id,check);

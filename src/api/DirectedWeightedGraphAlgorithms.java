@@ -32,8 +32,6 @@ public class DirectedWeightedGraphAlgorithms {
 
         drawPath(path, panel , frame);
 
-        System.out.println("-------------- LOOK --------------");
-
         if (!path.isEmpty()) {
             /*Before any drawing, draw the path with purple and red color for unmatched and matched edges accordingly */
             for (int i = 0; i < path.size() - 1; i++) {
@@ -89,7 +87,6 @@ public class DirectedWeightedGraphAlgorithms {
      */
     public void drawPath(ArrayList<NodeData> path, PanelBipartiteGraph panel, FrameGraph frame) {
         System.out.println(Arrays.toString(path.toArray()));
-
         if (path.isEmpty()){return;}
 
         for (int i = 0; i < path.size()-1; i++) {

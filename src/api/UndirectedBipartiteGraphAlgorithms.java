@@ -72,21 +72,21 @@ public class UndirectedBipartiteGraphAlgorithms {
         for (EdgeData e : graphCopy.getEdges()){
             e.setWeight(maxWeight - e.getWeight());
         }
-        //panel.render();
         while (true){
-            System.out.println("BOOM!");
             DirectedWeightedGraph g = constructDirectedGraph(graphCopy);
             DirectedWeightedGraphAlgorithms g_algo = new DirectedWeightedGraphAlgorithms();
             g_algo.init(g);
             boolean status = g_algo.dijkstra(graphCopy, panel, frame); // Performs bfs from an unsaturated vertex in A.
             if (!status) {System.out.println(Arrays.toString(graphCopy.getMatches().toArray()));break;}
         }
-        System.out.println("----------------------------------------");
     }
 
+    /*
+     * Method performs hungarian method to find augmenting path,
+     * until they aren't augmenting paths to be found.
+     */
     public void hungarianMethod(PanelBipartiteGraph panel, FrameGraph frame) {
         graph.setMatches(new ArrayList<>()); // M = ϕ
-        //panel.render();
         while (true){
             DirectedWeightedGraph g = constructDirectedGraph(graph);
             DirectedWeightedGraphAlgorithms g_algo = new DirectedWeightedGraphAlgorithms();
@@ -111,15 +111,18 @@ public class UndirectedBipartiteGraphAlgorithms {
             ArrayList<NodeData> A = graph.getDisjointSet_A();
             ArrayList<NodeData> B = graph.getDisjointSet_B();
 
+            // Check in which set (A, A', B, B') the edge's nodes belong
             if (graph.isVertexInGroup(src, B) && graph.isVertexInMatches(src)
                     && graph.isVertexInGroup(dest, A) && graph.isVertexInMatches(dest)
                     && graph.isDirectEdgeInMatches(e.getSrc(), e.getDest())) {
                 constructedGraph.connect(e.getSrc(), e.getDest(), e.getWeight());
-            } else if (graph.isVertexInGroup(dest, B) && graph.isVertexInMatches(dest)
+            }
+            else if (graph.isVertexInGroup(dest, B) && graph.isVertexInMatches(dest)
                     && graph.isVertexInGroup(src, A) && graph.isVertexInMatches(src)
                     && graph.isDirectEdgeInMatches(e.getSrc(), e.getDest())) {
                 constructedGraph.connect(e.getDest(), e.getSrc(), e.getWeight());
-            } else {
+            }
+            else {
                 if (graph.isVertexInGroup(src, A)) {
                     constructedGraph.connect(e.getSrc(), e.getDest(), e.getWeight());
                 } else {
