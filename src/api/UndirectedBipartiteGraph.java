@@ -419,12 +419,7 @@ public class UndirectedBipartiteGraph {
      * @return true iff the given edge in the matches list, o.w., return false.
      */
     public boolean isEdgeInMatch(EdgeData e){
-        for (EdgeData match : matches){
-            if (match.equals(e)){
-                return true;
-            }
-        }
-        return false;
+        return isEdgeInSet(e.getSrc(), e.getDest(), matches);
     }
 
 

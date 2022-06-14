@@ -328,6 +328,9 @@ public class GraphPanel extends JPanel implements MouseMotionListener,MouseListe
 			System.out.println("EDGE::: " + e.getSrc() + ", " + e.getDest());
 			int src = e.getSrc(), dest = e.getDest();
 
+			// Unexpected behaviour
+			if (src == dest) {continue;}
+
 			boolean isSrcInA = constructedGraph.isVertexIdInGroup(src, constructedGraph.getDisjointSet_A()),
 					isSrcInB = constructedGraph.isVertexIdInGroup(src, constructedGraph.getDisjointSet_B()),
 					isDestInA = constructedGraph.isVertexIdInGroup(dest, constructedGraph.getDisjointSet_A()),

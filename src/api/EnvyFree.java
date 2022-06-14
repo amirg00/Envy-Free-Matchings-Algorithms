@@ -63,7 +63,7 @@ public class EnvyFree {
         for (NodeData y : Y_i){
             ArrayList<EdgeData> N = bGraph.edgesOut(y.getKey());
             for (EdgeData neighbor : N){
-                NodeData destNode = bGraph.getNode(neighbor.getDest());
+                NodeData destNode = bGraph.getNode(neighbor.getSrc() == y.getKey() ? neighbor.getDest() : neighbor.getSrc());
                 if (bGraph.isEdgeInMatch(neighbor) && !X_i.contains(destNode)){
                     X_i.add(destNode);
                 }
@@ -88,7 +88,7 @@ public class EnvyFree {
         ArrayList<NodeData> N = new ArrayList<>();
         for (NodeData node : X_i_minus_1){
             for (EdgeData neighbor : bGraph.edgesOut(node.getKey())){
-                NodeData destNode = bGraph.getNode(neighbor.getDest());
+                NodeData destNode = bGraph.getNode(neighbor.getSrc() == node.getKey() ? neighbor.getDest() : neighbor.getSrc());
                 if (!bGraph.isEdgeInMatch(neighbor) && !N.contains(destNode)){
                     N.add(destNode);
                 }
