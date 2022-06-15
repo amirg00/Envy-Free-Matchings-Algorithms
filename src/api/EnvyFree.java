@@ -151,7 +151,7 @@ public class EnvyFree {
         ArrayList<EdgeData> intersection = new ArrayList<>();
         for (EdgeData e : firstSet){
             for (EdgeData e_sec : secondSet) {
-                if (e.equals(e_sec) && !intersection.contains(e)) {
+                if (e.equalsUndirected(e_sec) && !intersection.contains(e)) {
                     intersection.add(e);
                 }
             }

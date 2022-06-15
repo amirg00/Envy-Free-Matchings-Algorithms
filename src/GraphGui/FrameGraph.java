@@ -111,11 +111,9 @@ public class FrameGraph extends JFrame implements ActionListener {
             graph.createRandomBipartiteGraph(30);
             panel.setGraph(graph);
             panel.repaint();
-            System.out.println("...");
         }
 
         else if (e.getSource() == newGraph){
-            System.out.println("ggggggggggggg");
             graphEditor = new GraphEditor();
         }
 

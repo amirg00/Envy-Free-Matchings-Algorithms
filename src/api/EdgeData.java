@@ -60,6 +60,12 @@ public class EdgeData {
         return this.src == other.src && this.dest == other.dest;
     }
 
+    // equals method for edges for UNDIRECTED EDGES!
+    public boolean equalsUndirected(EdgeData other){
+        return (this.src == other.src && this.dest == other.dest)
+                || (this.src == other.dest && this.dest == other.src);
+    }
+
     @Override
     public String toString(){
         return "src: " + src + ", " + "dest: " + dest;
